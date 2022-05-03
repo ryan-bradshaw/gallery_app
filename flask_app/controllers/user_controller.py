@@ -4,6 +4,7 @@ from flask_app import app
 from flask_app.models.user import User
 from flask_app.models.art import Art
 from flask_bcrypt import Bcrypt
+
 bcrypt = Bcrypt(app)
 
 @app.route('/')
@@ -40,16 +41,16 @@ def login():
     session['user_id'] = user.id
     return redirect('/dashboard')
 
-# need to create link to front end React and render that
 
-# @app.route('/dashboard')
-# def dashboard():
-#     if 'user_id' not in session:
-#         return redirect('/logout')
-#     data ={
-#         'id': session['user_id']
-#     }
-#     return render_template("dashboard.html",user=User.get_by_id(data),recipes=Recipe.get_all())
+@app.route('/dashboard')
+def dashboard():
+    if 'user_id' not in session:
+        return redirect('/logout')
+    data ={
+        'id': session['user_id']
+    }
+    return render_template("dashboard.html",user=User.get_by_id(data),art=Art.get_all())
+
 
 @app.route('/logout')
 def logout():
